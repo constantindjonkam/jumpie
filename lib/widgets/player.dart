@@ -23,7 +23,6 @@ class Player extends StatelessWidget {
     }
 
     return Container(
-      // width: size,
       height: size,
       child: right
           ? playerAction()

@@ -11,7 +11,6 @@ class Apple extends StatelessWidget {
     return Container(
       alignment: Alignment(appleX, appleY),
       child: Container(
-        // height: 35,
         width: 35,
         child: Image.asset("assets/images/apple.png"),
       ),

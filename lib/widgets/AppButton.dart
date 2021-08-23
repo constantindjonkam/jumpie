@@ -17,7 +17,6 @@ class AppButton extends StatelessWidget {
         holdingBtn = true;
         onTapDown();
       },
-      // onTapCancel: () => holdingBtn = false,
       onTapUp: (_) {
         holdingBtn = false;
         index++;
