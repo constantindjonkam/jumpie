@@ -31,9 +31,6 @@ class _HomeState extends State<Home> {
   bool midJump = false;
 
   bool ateApple() {
-    // print('position apple: (${appleX.toString()}, ${appleY.toString()})');
-    // print('position player: (${playerX.toString()}, ${playerY.toString()})');
-
     if (((playerX - appleX).abs() < 0.07 && (playerY - appleY).abs() < 0.07) ||
         ((playerX - appleX).abs() < 0.07 && playerY > appleHeight && midJump)) {
       setState(() {
@@ -71,22 +68,22 @@ class _HomeState extends State<Home> {
   }
 
   void jump() {
-    // if (midJump) return;
+    if (midJump) return;
 
-    // preJump();
-    // Timer.periodic(Duration(milliseconds: 2), (timer) {
-    //   time += 0.005;
-    //   height = -4.9 * time * time + 5 * time;
+    preJump();
+    Timer.periodic(Duration(milliseconds: 2), (timer) {
+      time += 0.005;
+      height = -4.9 * time * time + 5 * time;
 
-    //   if (initialHeight - height > 1) {
-    //     midJump = false;
-    //     setState(() {
-    //       playerY = 1;
-    //     });
-    //     timer.cancel();
-    //   }
-    // setState(() => playerY = initialHeight - height);
-    // });
+      if (initialHeight - height > 1) {
+        midJump = false;
+        setState(() {
+          playerY = 1;
+        });
+        timer.cancel();
+      } else
+        setState(() => playerY = initialHeight - height);
+    });
   }
 
   void moveRight() {
@@ -167,8 +164,8 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                       AppButton(
-                        child: Icon(Icons.arrow_upward, color: Colors.white),
-                      ),
+                          child: Icon(Icons.arrow_upward, color: Colors.white),
+                          onTapDown: jump),
                     ],
                   ),
                 ),
