@@ -23,12 +23,13 @@ class AppButton extends StatelessWidget {
         print("key up: " + index.toString());
       },
       child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Container(
-            padding: EdgeInsets.all(12),
-            color: Colors.brown[300],
-            child: child,
-          )),
+        borderRadius: BorderRadius.circular(15),
+        child: Container(
+          padding: EdgeInsets.all(12),
+          color: Colors.brown[300],
+          child: child,
+        ),
+      ),
     );
   }
 }
