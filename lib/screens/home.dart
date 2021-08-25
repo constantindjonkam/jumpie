@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'dart:async';
 
 import '../widgets/Apple.dart';
 import '../widgets/AppButton.dart';
 import '../widgets/player.dart';
+import '../widgets/GamePad.dart';
+import '../widgets/Obstacle.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,9 +14,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final assetsAudioPlayer = AssetsAudioPlayer.withId("0");
+  bool playing = false;
+
   @override
   void initState() {
     checkCollision();
+
+    assetsAudioPlayer.open(
+      Audio("assets/sounds/ForestWalk-320bit.mp3"),
+      loopMode: LoopMode.single,
+      playInBackground: PlayInBackground.disabledRestoreOnForeground,
+    );
+
     super.initState();
   }
 
@@ -22,10 +35,10 @@ class _HomeState extends State<Home> {
   double playerSize = 80;
   static double appleX = 0.75;
   static double appleY = 1;
-  static double appleHeight = 0.7;
+  double appleHeight = 0.7;
   double time = 0;
   double height = 0;
-  double initialHeight = playerY;
+  double initialHeight = 1;
   bool right = true;
   bool midRun = false;
   bool midJump = false;
@@ -122,54 +135,38 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           Expanded(
-              flex: 4,
-              child: Stack(
-                children: [
-                  Container(
-                      color: Colors.blue,
-                      child: AnimatedContainer(
-                        alignment: Alignment(playerX, playerY),
-                        duration: Duration(milliseconds: 0),
-                        child: Player(
-                            size: playerSize,
-                            right: right,
-                            midRun: midRun,
-                            midJump: midJump),
-                      )),
-                  Apple(appleX, appleY),
-                ],
-              )),
-          Expanded(
-              flex: 1,
-              child: Container(
-                color: Colors.brown,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: AppButton(
-                                child:
-                                    Icon(Icons.arrow_back, color: Colors.white),
-                                onTapDown: moveLeft),
-                          ),
-                          AppButton(
-                              child: Icon(Icons.arrow_forward,
-                                  color: Colors.white),
-                              onTapDown: moveRight),
-                        ],
-                      ),
-                      AppButton(
-                          child: Icon(Icons.arrow_upward, color: Colors.white),
-                          onTapDown: jump),
-                    ],
+            flex: 4,
+            child: Stack(
+              children: [
+                Container(
+                  color: Colors.yellow[100],
+                  child: AnimatedContainer(
+                    alignment: Alignment(playerX, playerY),
+                    duration: Duration(milliseconds: 0),
+                    child: Player(
+                      size: playerSize,
+                      right: right,
+                      midRun: midRun,
+                      midJump: midJump,
+                    ),
                   ),
                 ),
-              )),
+                Obstacle(-0.8, 0.4),
+                Obstacle(0, 0.03),
+                Obstacle(-0.75, -0.4),
+                Obstacle(0.6, -0.5),
+                Apple(appleX, appleY),
+                Apple(0.6, -0.75),
+                Apple(-0.8, 0.22),
+                Apple(0.6, -0.75),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child:
+                GamePad(jump: jump, moveLeft: moveLeft, moveRight: moveRight),
+          ),
         ],
       ),
     );
